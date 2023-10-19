@@ -72,12 +72,40 @@ app.get('/products/:id',async(req,res)=>{
   res.send(product)
 })
 
-
 app.put('/products/:id',async(req,res)=>{
   const id=req.params.id;
+  const filter ={_id:new ObjectId(id)}
+  const options ={upsert:true}
   const updatedProduct = req.body;
-  console.log(updatedProduct);
+  const product ={
+    $set:{
+    
+      name:updatedProduct.name,
+      brand:updatedProduct.brand,
+      rating:updatedProduct.rating,
+      description:updatedProduct.description,
+      image:updatedProduct.image,
+      type:updatedProduct.type,
+      price:updatedProduct.price
+  }
+}
+const result =await productCollection.updateOne(filter,product,options)
+res.send(result)
 })
+
+//cart database
+
+const cartCollection = client.db('brandShopDB').collection('cart')
+
+//cart post database
+
+app.post('/cart',async(req,res)=>{
+  const newCart=req.body;
+  console.log(newCart);
+  const result= await cartCollection.insertOne(newCart)
+  res.send(result)
+})
+
 
 
 
