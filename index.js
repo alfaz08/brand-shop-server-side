@@ -73,6 +73,12 @@ app.get('/products/:id',async(req,res)=>{
 })
 
 
+app.put('/products/:id',async(req,res)=>{
+  const id=req.params.id;
+  const updatedProduct = req.body;
+  console.log(updatedProduct);
+})
+
 
 
 
